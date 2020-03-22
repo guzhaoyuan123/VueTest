@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../assets/css/shopping.css">
+</head>
+<body>
+		<div id="app">
+
+
+			<div class="box1">
+				<span class="biaoti2">订单管理</span>
+			</div>
+
+			<p class="box2">
+				<span class="wenzi1">品牌：</span>
+				<input type="text" v-model="select" class="select" chaplaceholder="请输入名称" />
+
+				<button type="button" class="chaxun" @click="serach">查询</button>
+			</p>
+			<hr>
+			<div class="box3">
+				<div class="box4">
+					<table>
+                        <tbody>
+						<tr class="table1">
+							<td width="250px">品牌</td>
+							<td>订单日期</td>
+							<td>订单价格</td>
+							<td>购买数量</td>
+							<td>操作</td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+						<tr v-for="(dingdan,index) in dingdans">
+							                      <td v-once>{{dingdan.name}}</td>
+							                      <td v-once>{{dingdan.time}}</td>
+							                      <td v-once>{{dingdan.price}}</td>
+							<td>
+								<input type="button" value="-" @click="jianfen(index)">
+								<span v-once>{{dingdan.number}}</span>
+								<input type="button" value="+" @click="jiafen(index)">
+							</td>
+							                      <td><button @click="remove(index)">删除</button></td>
+						</tr>
+                    </tbody>
+					</table>
+					<span class="zongjie">订单总额:</span><span class="zongjie" v-model="zong">{{zong}}</span>
+				</div>
+
+				<div class="box5">
+					<h2>新增订单</h2>
+					<span class="wenzi1">品牌：</span>
+					<input type="text" class="select" v-model="name" placeholder="例如：LG，三星，小米" />
+					<br>
+					<span class="wenzi1">价格：</span>
+					<input type="text" class="select" v-model="price" placeholder="1-999999元" />
+					<br>
+					<span class="wenzi1">数量：</span>
+					<input type="text" class="select" v-model="number" placeholder="如：3" />
+					<br>
+					<button class="tijiao" @click="insert">提交</button>
+
+				</div>
+			</div>
+		</div>
+
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					zong: 0,
+					// 订单对象
+					dingdan: {
+						name: '',
+						time: '',
+						price: '',
+						number: ''
+					},
+					// 订单对象数组
+					dingdans: [ ],
+				},
+				methods: {
+					// 加上商品数量
+					jiafen: function(index) {
+						this.dingdans[index].number++;
+						var sum = this.dingdans[index].price * this.dingdans[index].number;
+                        var sum1 = 0;
+                        var sum2=0;
+						for (let i = 0; i < this.dingdans.length; i++) {
+							sum1 = parseInt(sum) + parseInt(this.dingdans[i].price);
+						}
+                        sum2+=sum1;
+						this.zong = sum2;
+					},
+					// 减去商品数量
+					jianfen: function(index) {
+						var sum = 0;
+						if (this.dingdans[index].number <= 0) {
+							this.dingdans.splice(index, 1);
+						} else {
+							this.dingdans[index].number--;
+							this.dingdans[index].price = this.dingdans[index].price / this.dingdans[index].number;
+						}
+						for (let i = 0; i < this.dingdans.length; i++) {
+							sum = parseInt(sum) + parseInt(this.dingdans[i].price);
+						}
+						this.zong = sum;
+					},
+					// 添加订单对象
+					insert: function() {
+						var date = new Date();
+						var seperator1 = "-";
+						var year = date.getFullYear();
+						var month = date.getMonth() + 1;
+						var strDate = date.getDate();
+						if (month >= 1 && month <= 9) {
+							month = "0" + month;
+						}
+						if (strDate >= 0 && strDate <= 9) {
+							strDate = "0" + strDate;
+						}
+						var currentdate = year + seperator1 + month + seperator1 + strDate + - +date.getHours() + ":" + date.getMinutes();
+
+						this.dingdans.push({
+							name: this.name,
+							time: currentdate,
+							price: this.price,
+							number: this.number,
+						})
+
+						var sum = 0;
+						for (let i = 0; i < this.dingdans.length; i++) {
+							sum = parseInt(sum) + parseInt(this.dingdans[i].price);
+						}
+						this.zong = sum;
+					},
+					// 删除订单对象
+					remove: function(index) {
+						this.dingdans.splice(index, 1)
+
+						var sum = 0;
+						for (let i = 0; i < this.dingdans.length; i++) {
+							sum = parseInt(sum) + parseInt(this.dingdans[i].price);
+						}
+						this.zong = sum;
+					},
+					// 查询订单名称
+					serach: function() {
+						var dingdan;
+						for (let i = 0; i < this.dingdans.length; i++) {
+							if ((this.dingdans[i].name == this.select) && this.select != -1) {
+								dingdan = this.dingdans[i];
+								this.dingdans.splice(0, this.dingdans.length);
+								this.dingdans.push(dingdan);
+							}
+						}
+					},
+				}
+			})
+		</script>
+	</body>
+</html>

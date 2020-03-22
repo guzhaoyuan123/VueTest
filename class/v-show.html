@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/img.css"></link>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="center">
+          <!--图片-->
+          <img :src="imgs[index]" alt=""> 
+          <!--左箭头-->
+          <a href="JavaScript:void(0)" class="left" @click="prev" v-show="index!=0">
+            <img src="../assets/img/prev.png" alt="" >
+          </a>
+          <!--右箭头-->
+          <a href="JavaScript:void(0)" class="right" @click="next" v-show="index<imgs.length - 1">
+            <img src="../assets/img/next.png" alt="" >
+          </a>
+        </div>
+      </div>
+      <script>
+          var app = new Vue({
+              el: '#app',
+              data:{
+                  imgs:[
+                      '../assets/img/01.jpg',
+                      '../assets/img/02.jpg',
+                      '../assets/img/03.jpg',
+                      '../assets/img/04.jpg',
+                  ],
+                  index:0
+              },
+              methods:{
+                  prev:function(){
+                      this.index--;
+                  },
+                  next:function(){
+                      this.index++;
+                  }
+
+              }
+          })
+      </script>
+</body>
+</html>

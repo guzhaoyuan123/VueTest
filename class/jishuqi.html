@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>计算器 实例</title>
+		<script src="../assets/js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<h1>计算器</h1>
+		<hr />
+		<div id="app">
+			<p>
+				数值1：<input type="text" v-model="text1"/>
+			</p>
+			<p>
+				数值2：<input type="text" v-model="text2" />
+			</p>
+			<p>
+				<button @click="jisuan">计算</button><br><br>
+				计算结果为：<span id="jieguo">{{fenshu}}</span>
+			</p>
+		</div>
+		
+		<script type="text/javascript">
+			var app = new Vue({
+				el:'#app',
+				data:{
+					fenshu:0
+				},
+				methods:{
+					jisuan:function(){
+						
+						this.fenshu=parseInt(this.text1)+parseInt(this.text2);
+					}
+					
+				}
+			})
+		</script>
+	</body>
+</html>
