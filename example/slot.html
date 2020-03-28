@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>slot</title>
+		<script type="text/javascript" src="../assets/js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<base-layout>
+				<p slot="header">标题内容</p>
+				<p>main内容1</p>
+				<p>main内容2</p>
+				<p slot="footer">底部内容</p>
+			</base-layout>
+		</div>
+
+		<script type="text/javascript">
+			Vue.component('base-layout', {
+				template: `
+				<div class="container">
+				    <header>
+				        <slot name="header"></slot>
+				    </header>
+				    <main>
+				        <slot></slot>
+				    </main>
+				    <footer>
+				        <slot name="footer"></slot>
+				    </footer>
+				</div>
+				`
+			})
+			var app = new Vue({
+				el: '#app',
+				data: {
+				}
+			})
+		</script>
+	</body>
+</html>

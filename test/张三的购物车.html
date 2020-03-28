@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../assets/js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			<zs-div-1 :username='username' ></zs-div-1>
+			<zs-table :dingdan="dingdan" :dingdans="dingdans"></zs-table>
+			<zs-div-2 :dingdans="dingdans"></zs-div-2>
+			
+		</div>
+
+		<script type="text/javascript">
+			
+			// 标题组件
+			let divComponent = {
+				props: ['username'],
+				template: `
+				<div 
+				style="margin: 0 auto;
+				     width: 400px ;
+					 height: 40px ;
+					 background-color: #87CEEB; 
+					 text-align: center; 
+					 line-height: 40px;">{{username}}的商品
+					 </div>`
+			}
+
+
+            // 商品内容组件
+			let tableComponent = {
+				props: ['dingdan', 'dingdans'],
+				template: `
+				<table style="width: 400px;text-align: center; margin: 0 auto;" border="0" cellpadding="0" cellspacing="0">
+					<tr style="height: 60px;" v-for="(dingdan,index) in dingdans">
+				        <td style="border-bottom: 1px solid #87CEEB; "><img src="{{dingdan.picture}}"></td>
+						<td style="border-bottom: 1px solid #87CEEB; ">{{dingdan.name}}</td>
+						<td style="border-bottom: 1px solid #87CEEB; ">
+							<input type="button" value="-" @click="svm(index)">
+							<span>{{dingdan.number}}</span>
+							<input type="button" value="+" @click="add(index)">
+						</td style="border-bottom: 1px solid #87CEEB; ">
+						<td style="border-bottom: 1px solid #87CEEB; "><button @click="remove(index)">删除</button></td>
+					</tr>
+				</table>`,
+				methods: {
+					// 增加方法
+					add: function(index) {
+
+						this.dingdans[index].number++;
+					},
+					
+					// 减少方法
+					svm: function(index) {
+						if (this.dingdans[index].number > 0) {
+							this.dingdans[index].number--;
+						}
+					},
+					
+					// 删除订单对象
+					remove: function(index) {
+						this.dingdans.splice(index, 1)
+					},
+				}
+			}
+
+
+            // 结果组件
+			let div2Component = {
+				props: ['dingdans','sum'],
+				template: `
+				<div style="margin: 0 auto;
+				     width: 400px ;
+					 height: 60px ;
+					 background-color: darkorange; 
+					 text-align: center; 
+					 line-height: 40px;">
+					 <span style="color: red; font-size: 20px; line-height: 60px; font-weight: 600;">总价：{{sum}}</span>
+					 <button style="background-color: blueviolet;height: 40px; width: 80px;border: 0; border-radius: 10px; margin-left: 20px;" @click="totlePrice">结算</button>
+				</div>`,
+				methods: {
+					totlePrice: function() {
+						let price = 0;
+						this.dingdans.forEach(item => {
+							price += item.price * item.number;
+						});
+						this.sum=price;
+					}
+				}
+			}
+
+
+			let vm = new Vue({
+				el: "#app",
+				data: {
+					sum:0,
+					username:'Gzy',
+					dingdan: {
+						picture: '',
+						name: '',
+						price:0,
+						number: 1,
+					},
+					// 订单对象数组
+					dingdans: [{
+							picture: '../assets/img/山竹.png',
+							name: '山竹',
+							price:100,
+							number: 1,
+						},
+						{
+							picture: '../assets/img/草莓.png',
+							name: '草莓',
+							price:100,
+							number: 1,
+						},
+						{
+							picture: '../assets/img/火龙果.png',
+							name: '火龙果',
+							price:100,
+							number: 1,
+						},
+						{
+							picture: '../assets/img/猕猴桃.png',
+							name: '猕猴桃',
+							price:100,
+							number: 1,
+						},
+						{
+							picture: '../assets/img/葡萄.png',
+							name: '葡萄',
+							price:100,
+							number: 1,
+						},
+					],
+				},
+				components: {
+					'zs-div-1': divComponent,
+					'zs-table': tableComponent,
+					'zs-div-2': div2Component,
+				},
+			})
+		</script>
+	</body>
+</html>

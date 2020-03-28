@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <script type="text/javascript" src="../assets/js/vue.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/shopping.css">
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<script type="text/javascript" src="../assets/js/vue.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<link rel="stylesheet" type="text/css" href="../assets/css/shopping.css">
+	</head>
+	<body>
 		<div id="app">
 
 
@@ -25,31 +25,34 @@
 			<hr>
 			<div class="box3">
 				<div class="box4">
-					<table>
-                        <tbody>
-						<tr class="table1">
-							<td width="250px">品牌</td>
-							<td>订单日期</td>
-							<td>订单价格</td>
-							<td>购买数量</td>
-							<td>操作</td>
-                        </tr>
-                        </tbody>
-                        <tbody>
-						<tr v-for="(dingdan,index) in dingdans">
-							                      <td v-once>{{dingdan.name}}</td>
-							                      <td v-once>{{dingdan.time}}</td>
-							                      <td v-once>{{dingdan.price}}</td>
-							<td>
-								<input type="button" value="-" @click="jianfen(index)">
-								<span v-once>{{dingdan.number}}</span>
-								<input type="button" value="+" @click="jiafen(index)">
-							</td>
-							                      <td><button @click="remove(index)">删除</button></td>
-						</tr>
-                    </tbody>
+					<table style="width: 800px;">
+						<tbody>
+							<tr class="table1">
+								<td width="150px">品牌</td>
+								<td>订单日期</td>
+								<td>订单价格</td>
+								<td>购买数量</td>
+								<td>操作</td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr v-for="(dingdan,index) in dingdans">
+								<td v-once>{{dingdan.name}}</td>
+								<td v-once>{{dingdan.time}}</td>
+								<td v-once>{{dingdan.price}}</td>
+								<td>
+									<input type="button" value="-" @click="jianfen(index)">
+									<span v-once>{{dingdan.number}}</span>
+									<input type="button" value="+" @click="jiafen(index)">
+								</td>
+								<td><button @click="remove(index)">删除</button></td>
+							</tr>
+						</tbody>
 					</table>
+					<!-- 总价 -->
+					<cart-total></cart-total>
 					<span class="zongjie">订单总额:</span><span class="zongjie" v-model="zong">{{zong}}</span>
+					<button @click=""></button>
 				</div>
 
 				<div class="box5">
@@ -82,19 +85,19 @@
 						number: ''
 					},
 					// 订单对象数组
-					dingdans: [ ],
+					dingdans: [],
 				},
 				methods: {
 					// 加上商品数量
 					jiafen: function(index) {
 						this.dingdans[index].number++;
 						var sum = this.dingdans[index].price * this.dingdans[index].number;
-                        var sum1 = 0;
-                        var sum2=0;
+						var sum1 = 0;
+						var sum2 = 0;
 						for (let i = 0; i < this.dingdans.length; i++) {
 							sum1 = parseInt(sum) + parseInt(this.dingdans[i].price);
 						}
-                        sum2+=sum1;
+						sum2 += sum1;
 						this.zong = sum2;
 					},
 					// 减去商品数量
